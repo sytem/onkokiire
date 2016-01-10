@@ -68,6 +68,9 @@ var http = require("http");
                     var title = "Juna " + data[0].trainNumber + " peruttu";
                     var message = "Ei voittoa tänään";
 
+                    /*
+                    //disable for testing
+
                     push.send(title, message, function (err, res){
                         if(err){
                             console.log("We have an error:");
@@ -78,10 +81,11 @@ var http = require("http");
                             console.log(res);
                         }
                     });
+                    */
                 }
 
                 for (i = 0; i < data[0].timeTableRows.length; i++) { 
-                    //filter only intresting stations
+                    //filter only intresting stations to print
                     if (data[0].timeTableRows[i].stationShortCode == "PSL" || 
                         data[0].timeTableRows[i].stationShortCode == "RI" || 
                         data[0].timeTableRows[i].stationShortCode == "HL" || 
@@ -91,6 +95,28 @@ var http = require("http");
                         if (data[0].timeTableRows[i].type == "ARRIVAL" ){
                             console.log(data[0].timeTableRows[i].stationShortCode + " (" + data[0].timeTableRows[i].scheduledTime + ") : " + data[0].timeTableRows[i].differenceInMinutes) + "\n";
                         }    
+                    }
+                    // send alert if late
+
+                    if (data[0].timeTableRows[i].stationShortCode == "RI" && data[0].timeTableRows[i].type == "ARRIVAL" ) {
+                        if ( data[0].timeTableRows[i].differenceInMinutes > 10 ) {
+                            console.log("Sending message, train late");
+
+                            var title = "Juna " + data[0].trainNumber + " myöhässä";
+                            var message = data[0].timeTableRows[i].stationShortCode + ": +" + data[0].timeTableRows[i].differenceInMinutes + " min";
+
+                            push.send(title, message, function (err, res){
+                                if(err){
+                                    console.log("We have an error:");
+                                    console.log(err);
+                                    console.log(err.stack);
+                                }else{
+                                    console.log("Message send successfully");
+                                    console.log(res);
+                                }
+                            });
+                        }
+
                     }
                 }
                
