@@ -24,9 +24,9 @@ var http = require("http");
     trains = config.trains;
     baseurl = "http://rata.digitraffic.fi/api/v1/live-trains/";
 
-    //set date or use nearest, warning: no check if train exist on given date
+    //set date or use nearest
     dateparam = ""
-    dateparam = "?departure_date=2016-01-08";
+    dateparam = "?departure_date=2016-01-09";
 
     for (t = 0; t < trains.length; t++) { 
 
@@ -38,8 +38,7 @@ var http = require("http");
             // data is streamed in chunks from the server
             // so we have to handle the "data" event    
             var buffer = "", 
-                data,
-                route;
+                data;
 
             response.on("data", function (chunk) {
                 buffer += chunk;
@@ -52,6 +51,14 @@ var http = require("http");
                 //console.log("\n");
                 data = JSON.parse(buffer);
                 //console.log(data)
+
+                //if we dont get data, there is no such train today
+                if(typeof data[0] === 'undefined'){
+                    console.log("ei ole junaa");
+                    console.log("- - -");
+                    return;
+                };
+
 
                 //häly jos junan HL-aikaan on 30-40 minuuttia ja juna on joko peruttu tai pasilassa myöhässä >10min
                 //tai jos RI myöhässä >5min (tää tulee noin 20min ennen HL-aikaa)
