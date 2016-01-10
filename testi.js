@@ -10,6 +10,14 @@
 // load config from file, do not update this to git 
 var config = require('./config');
 
+var Pushover = require('node-pushover');
+
+var push = new Pushover({
+    token: config.pushover.apikey,
+    user: config.pushover.user
+});
+
+
 var http = require("http");
     //what trains to get
     //trains = [81, 83, 165];
@@ -52,6 +60,26 @@ var http = require("http");
                 console.log("trail: " + data[0].trainNumber);
                 console.log("cancelled: " + data[0].cancelled);
 
+                if (data[0].cancelled) {
+
+                    //send alert
+                    console.log("Sending message, train cancelled");
+
+                    var title = "Juna " + data[0].trainNumber + " peruttu";
+                    var message = "Ei voittoa tänään";
+
+                    push.send(title, message, function (err, res){
+                        if(err){
+                            console.log("We have an error:");
+                            console.log(err);
+                            console.log(err.stack);
+                        }else{
+                            console.log("Message send successfully");
+                            console.log(res);
+                        }
+                    });
+                }
+
                 for (i = 0; i < data[0].timeTableRows.length; i++) { 
                     //filter only intresting stations
                     if (data[0].timeTableRows[i].stationShortCode == "PSL" || 
@@ -66,6 +94,7 @@ var http = require("http");
                     }
                 }
                
+               console.log("- - -");
             }); 
         
         });
