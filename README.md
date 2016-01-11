@@ -2,7 +2,7 @@
 Onkohan juna tulossa ajoissa, eli onko kiire lähteä asemalla, tai kannattaako jäädä kokonaan kotiin. Hyvin alkuvaiheessa oleva työkalu joka on samlla node.js-harjoitus.
 
 
-Cronissa ajettava scripti joka tarkistaa onko juna ei-peruttu ja ajoissa edellisellä asemalla. Tarvittessa lähetetään notifikaatio pushover-apin ( https://pushover.net/ ) kautta
+Cronissa ajettava scripti joka tarkistaa onko juna ei-peruttu ja ajoissa edellisellä asemalla. Tarvittessa lähetetään notifikaatio pushover-apin ( https://pushover.net/ ) kautta. Komentoriviparaametri --train=NN valitsee vain yhden, yhdistettynä sopivaan ajoitukseen vältetään tuplahälyt ja tiedetään oliko juna myöhässä edellisellä asemalla.
 
 # Todo:
 
