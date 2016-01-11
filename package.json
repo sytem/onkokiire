@@ -1,3 +1,20 @@
-"dependencies": {
-    "node-pushover": "0.2.2"
-  }
+{
+  "name" : "onkokiire",
+  "version" : "0.0.2",
+  "description" : "get notifications of VR trains being late",
+  "homepage" : "https://github.com/sytem/onkokiire",
+  "author" : "Teppo Rekola <sytem@iki.fi>",
+  "license": "GPL-2.0",
+
+
+  "dependencies": {
+    "node-pushover": "0.2.x",
+    "yargs": "*"
+  }, 
+
+  "repository" : {"type": "git", "url": "https://github.com/sytem/onkokiire.git"},
+  "bin": "./testi.js"
+
+}
+
+
